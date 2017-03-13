@@ -1,6 +1,6 @@
 var ApiRoutes = function(){};
 
-ImageRoutes.prototype.index = function(req, res) {
+ApiRoutes.prototype.index = function(req, res) {
     res.render('index.html', { page: { title: 'Page Title' } } );
 }
 
