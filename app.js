@@ -1,11 +1,12 @@
 var express = require('express'),
     nunjucks  = require('nunjucks'),
     path = require('path'),
-    app = express(),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    dotenv = require('dotenv').config();
+    dotenv = require('dotenv').config(),
+    Routes = require("./routes"), routes,
+    app = express();
 
 
 // Create the asset paths
@@ -19,11 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, app.get('assets_path'))));
 
-// Define our routes
-var	page_routes = require('./routes/pages'),
-    api_routes = require('./routes/api');
-
-// Setup nunjucks templating engine
+// Nunjucks Initialization
 nunjucks.configure(app.get('views'), {
     autoescape: true,
     noCache: true,
@@ -31,9 +28,13 @@ nunjucks.configure(app.get('views'), {
     express: app
 });
 
-// Initialize routes
-app.use('/', page_routes);
-app.use('/api', api_routes);
+// Initialize Routes From index.js
+routes = new Routes();
+
+/* -- Page Routes -- */
+app.get('/', routes.pages.index);
+app.get('/api', routes.api.index);
+
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,9 +53,9 @@ app.use(function(err, req, res, next) {
     }
 });
 
+// Start our server
 app.set('port', process.env.PORT || 3000);
 
-// Start our server
 app.listen(app.get('port'), function() {
     console.log('Server started on port', app.get('port'));
 });

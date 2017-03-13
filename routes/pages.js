@@ -1,10 +1,8 @@
-var express = require('express'),
-    router = express.Router();
+var PageRoutes = function(thing){};
 
-router.get('/', function(req, res) {
-    res.render('index.html', { page: {
-            title: 'Page Title'
-        }
-    });
-});
-module.exports = router;
+PageRoutes.prototype.index = function(req, res) {
+    console.log(x);
+    res.render('index.html', { page: { title: 'Page Title' } } );
+}
+
+module.exports = PageRoutes;

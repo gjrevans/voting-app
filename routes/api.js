@@ -1,14 +1,7 @@
-var express = require('express'),
-    router = express.Router();
+var ApiRoutes = function(){};
 
-// Example post
-router.post('/', function(req, res) {
-    console.log(req.body);
-});
+ImageRoutes.prototype.index = function(req, res) {
+    res.render('index.html', { page: { title: 'Page Title' } } );
+}
 
-// Example get
-router.get('/:id', function (req, res) {
-    console.log(req.params.id);
-});
-
-module.exports = router;
+module.exports = ApiRoutes;
