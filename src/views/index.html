@@ -1,43 +1,17 @@
 {% extends "./layouts/default.html" %}
 
 {% block content %}
-<div class="container page-content">
+<div class="container-fluid mt-3">
 	<div class="row">
-		<div class="col-md-12 text-center">
-			<h3>Simple URL Shortener</h3>
-			<p>Your URL is looking pretty long there weary traveler. Ever thought about shortening it to lighten your load? Well, now you can. Shortening your url is simple, simply enter the URL you'd like to shorten below and our service provide you with a shortened url.</p>
-
-			<!-- Form to submit url -->
-			<div class="col-md-4 offset-md-4">
-				<form id="fuck" method="post" name="shorten" action="/u/shorten">
-					<div class="form-group">
-						<input type="text" name="url" class="form-control" id="urlInput">
-					</div>
-					<button type="submit" class="btn btn-primary btn-block" id="urlSubmit" placeholder="https://yoururlhere.com/as-long-as-you-like">Submit</button>
-				</form>
-			</div>
-
+		<div class="col-md-12">
+			<h3>Page Title</h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean felis purus, tempus quis dui non, ullamcorper facilisis dolor. Nulla odio tortor, eleifend nec justo non, semper sagittis risus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut porttitor lacus sodales sem scelerisque, cursus sagittis massa posuere. In eget bibendum diam, non blandit ligula. Pellentesque dignissim mattis mauris sed interdum. Praesent mi mauris, auctor et nibh vitae, varius mollis felis. Donec placerat auctor nisl, at gravida orci feugiat a. Quisque ornare erat luctus urna rutrum finibus. Sed auctor, nisi vitae iaculis commodo, augue nunc viverra diam, eu iaculis massa justo non diam.</p>
 		</div>
 	</div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("form[name=shorten]").submit(function( event ){
-			var url = $('#urlInput').val();
-			if(checkUrl(url)) {
-				return true;
-			};
-			alert("That's not a properly formatted url. Try https://your-url.com or http://anotherurl.com");
-			return false;
-		});
-
-		function checkUrl(url){
-		    var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-		    return regex.test(url);
-		}
-	});
-</script>
+<!-- Use this to insert JS into a page -->
+<!-- Important to put JS here so that JQUERY is available to the page -->
 {% endblock %}

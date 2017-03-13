@@ -1,12 +1,14 @@
 var express = require('express'),
-    router = express.Router(),
+    router = express.Router();
 
-// The path will shorten the url
-router.post('/shorten', function(req, res) {
+// Example post
+router.post('/', function(req, res) {
+    console.log(req.body);
 });
 
-// Redirect the user to the original site
+// Example get
 router.get('/:id', function (req, res) {
+    console.log(req.params.id);
 });
 
 module.exports = router;
