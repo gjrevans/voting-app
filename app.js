@@ -6,6 +6,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     dotenv = require('dotenv').config(),
     Routes = require("./routes"), routes,
+    Models = require("./models"),
     app = express();
 
 
@@ -29,12 +30,14 @@ nunjucks.configure(app.get('views'), {
 });
 
 // Initialize Routes From index.js
-routes = new Routes();
+models = new Models();
+routes = new Routes(models);
 
 /* -- Page Routes -- */
 app.get('/', routes.pages.index);
-app.get('/api', routes.api.index);
 
+/* -- Api Routes -- */
+app.get('/api', routes.api.index);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
