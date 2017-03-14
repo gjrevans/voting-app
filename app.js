@@ -29,7 +29,7 @@ nunjucks.configure(app.get('views'), {
     express: app
 });
 
-// Initialize Routes From index.js
+// Initialize Routes & Models From index.js
 models = new Models();
 routes = new Routes(models);
 
