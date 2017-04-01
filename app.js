@@ -2,6 +2,7 @@ var express         = require('express'),
     expressValidator = require('express-validator'),
     flash           = require('connect-flash'),
     session         = require('express-session'),
+    MongoStore      = require('connect-mongo')(session),
     port            = process.env.PORT || 3000,
     mongoose        = require('mongodb'),
     mongoose        = require('mongoose'),
@@ -25,7 +26,6 @@ var db = mongoose.connection;
 app.set('assets_path', (process.env.NODE_ENV === 'production') ? 'dist' : 'build');
 app.set('views', path.join(__dirname, app.get('assets_path') + '/views'));
 
-
 // Middleware & the like to make our lives easier
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -46,6 +46,10 @@ nunjucks.configure(app.get('views'), {
 // Express Session
 app.use(session({
     secret: 'secret',
+    maxAge: new Date(Date.now() + 3600000),
+    store: new MongoStore({
+        mongooseConnection:mongoose.connection
+    }),
     saveUninitialized: true,
     resave: true
 }));
@@ -84,15 +88,23 @@ app.use(function (req, res, next) {
   next();
 });
 
-// Initialize Routes & Models From index.js
-//models = new Models();
+// Check if current user is authenticated
+function ensureAuthented(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        req.flash('error_msg', 'You must be logged in to do that!');
+        res.redirect('users/login');
+    }
+}
+// Initialize Routes
 routes = new Routes();
 
 /* -- Page Routes -- */
 app.get('/', routes.pages.index);
 
 /* -- User Routes -- */
-app.get('/users', routes.users.index);
+app.get('/users', ensureAuthented, routes.users.index);
 app.get('/users/register', routes.users.register);
 app.post('/users/register', routes.users.createAccount);
 

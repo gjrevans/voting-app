@@ -1,6 +1,6 @@
 var passport        = require('passport'),
-LocalStrategy   = require('passport-local').Strategy,
-User            = require('../models/user');
+    LocalStrategy   = require('passport-local').Strategy,
+    User            = require('../models/user');
 
 var UserRoutes = function(){};
 
@@ -12,10 +12,15 @@ UserRoutes.prototype.index = function(req, res) {
 }
 
 UserRoutes.prototype.register = function(req, res) {
-    res.render('users/register.html', {
-        page: { title: 'Register' },
-        path: 'register'
-    });
+    if(req.isAuthenticated()){
+        req.flash('error_msg', 'You\'re already loggen in!');
+        res.redirect('/');
+    } else {
+        res.render('users/register.html', {
+            page: { title: 'Register' },
+            path: 'register'
+        });
+    }
 }
 
 UserRoutes.prototype.createAccount = function(req, res) {
@@ -58,10 +63,15 @@ UserRoutes.prototype.createAccount = function(req, res) {
 }
 
 UserRoutes.prototype.login = function(req, res) {
-    res.render('users/login.html', {
-        page: { title: 'Login' },
-        path: 'login'
-    });
+    if(req.isAuthenticated()){
+        req.flash('error_msg', 'You\'re already loggen in!');
+        res.redirect('/');
+    } else {
+        res.render('users/login.html', {
+            page: { title: 'Login' },
+            path: 'login'
+        });
+    }
 }
 
 passport.use(new LocalStrategy(function(username, password, done) {
