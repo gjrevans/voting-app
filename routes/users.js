@@ -12,15 +12,10 @@ UserRoutes.prototype.index = function(req, res) {
 }
 
 UserRoutes.prototype.register = function(req, res) {
-    if(req.isAuthenticated()){
-        req.flash('error_msg', 'You\'re already loggen in!');
-        res.redirect('/');
-    } else {
-        res.render('users/register.html', {
-            page: { title: 'Register' },
-            path: 'register'
-        });
-    }
+    res.render('users/register.html', {
+        page: { title: 'Register' },
+        path: 'register'
+    });
 }
 
 UserRoutes.prototype.createAccount = function(req, res) {
@@ -54,24 +49,28 @@ UserRoutes.prototype.createAccount = function(req, res) {
 
         User.createUser(newUser, function(err, user){
             if(err) throw error;
-            console.log(user);
         });
 
         req.flash('success_msg', 'You are now registered & can login!');
-        res.redirect('users/login');
+        res.redirect('login');
     }
 }
 
 UserRoutes.prototype.login = function(req, res) {
-    if(req.isAuthenticated()){
-        req.flash('error_msg', 'You\'re already loggen in!');
-        res.redirect('/');
-    } else {
-        res.render('users/login.html', {
-            page: { title: 'Login' },
-            path: 'login'
-        });
-    }
+    res.render('users/login.html', {
+        page: { title: 'Login' },
+        path: 'login'
+    });
+}
+
+UserRoutes.prototype.authenticate = function(req, res) {
+    res.redirect('/');
+}
+
+UserRoutes.prototype.logout = function(req, res) {
+    req.logout();
+    req.flash('success_msg', 'Successfully logged out!');
+    res.redirect('/users/login');
 }
 
 passport.use(new LocalStrategy(function(username, password, done) {
@@ -101,15 +100,5 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
-
-UserRoutes.prototype.authenticate = function(req, res) {
-    res.redirect('/');
-}
-
-UserRoutes.prototype.logout = function(req, res) {
-    req.logout();
-    req.flash('success_msg', 'You are logged out!');
-    res.redirect('/users/login');
-}
 
 module.exports = UserRoutes;

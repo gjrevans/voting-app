@@ -97,6 +97,15 @@ function ensureAuthented(req, res, next){
         res.redirect('users/login');
     }
 }
+
+function alreadyAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        req.flash('error_msg', 'You\'re already signed in!');
+        res.redirect('/');
+    } else {
+        return next();
+    }
+}
 // Initialize Routes
 routes = new Routes();
 
@@ -105,11 +114,9 @@ app.get('/', routes.pages.index);
 
 /* -- User Routes -- */
 app.get('/users', ensureAuthented, routes.users.index);
-app.get('/users/register', routes.users.register);
+app.get('/users/register', alreadyAuthenticated, routes.users.register);
 app.post('/users/register', routes.users.createAccount);
-
-app.get('/users/login', routes.users.login);
-
+app.get('/users/login', alreadyAuthenticated, routes.users.login);
 app.post('/users/login', passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login', failureFlash: true}), routes.users.authenticate);
 app.get('/users/logout', routes.users.logout);
 
