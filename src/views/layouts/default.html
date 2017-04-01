@@ -14,11 +14,14 @@
     </head>
     <body>
         <!-- UNCOMMENT FOR NAVIGATION -->
-        <!-- {% include "../includes/header.html" %} -->
+        {% include "../includes/header.html" %}
 
-        {% block content %}
-        <!-- CONTENT GOES HERE -->
-        {% endblock %}
+        <!-- INCLUDE ERRORS -->
+        {% include "../includes/errors.html" %}
+
+        <!-- PAGE CONTENT -->
+        {% block content %}{% endblock %}
+
         {% include "../includes/footer.html" %}
 
         <!-- BOOTSTRAP -->
@@ -32,3 +35,8 @@
         {% block extra_js %}{% endblock %}
     </body>
 </html>
+<script type="text/javascript">
+    $('.navbar-toggler').click(function(){
+        console.log('hey');
+    })
+</script>

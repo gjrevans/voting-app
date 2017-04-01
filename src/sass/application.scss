@@ -2,3 +2,12 @@
 .h-100 {
     height: 100vh;
 }
+
+// Alerts
+.alert {
+    border-radius: 0px;
+    .close {
+        font-size: 1.0rem;
+        line-height: 1.5rem;
+    }
+}

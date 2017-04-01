@@ -1,0 +1,21 @@
+{% extends "layouts/default.html" %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+	<div class="row">
+		<div class="col-md-12">
+			{% if user %}
+				You are signed in
+			{% else %}
+			<a href="/users/login">Login</a>
+			<a href="/users/register">Register</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Use this to insert JS into a page -->
+<!-- Important to put JS here so that JQUERY is available to the page -->
+{% endblock %}
