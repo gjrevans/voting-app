@@ -1,0 +1,50 @@
+{% extends "layouts/default.html" %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <h1>{{ poll.name }}</h1>
+            <canvas id="myChart"></canvas>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+// Define our polls results object in a nasty nunjucks hack
+var data = {
+    {% for key, value in poll.results %}
+           {{ key }}: {{ value }},
+    {% endfor %}
+}
+
+// Some ugly ass JS to create random colors
+var backgroundColors = [];
+Object.keys(data).forEach(function(){
+    backgroundColors.push(createHex());
+});
+
+function createHex() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
+// This creates the chart and pushes it to the myChart canvas
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: Object.keys(data),
+        datasets: [{
+            label: 'votes',
+            data: Object.values(data),
+            backgroundColor: backgroundColors
+        }]
+    }
+});
+</script>
+<!-- Use this to insert JS into a page -->
+<!-- Important to put JS here so that JQUERY is available to the page -->
+{% endblock %}

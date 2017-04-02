@@ -6,8 +6,7 @@ var UserRoutes = function(){};
 
 UserRoutes.prototype.index = function(req, res) {
     res.render('users/index.html', {
-        page: { title: 'Account' },
-        user: req.user
+        page: { title: 'Account' }
     });
 }
 

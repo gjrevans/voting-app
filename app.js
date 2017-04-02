@@ -109,11 +109,13 @@ function alreadyAuthenticated(req, res, next){
 // Initialize Routes
 routes = new Routes();
 
-/* -- Page Routes -- */
-app.get('/', routes.pages.index);
+/* -- Poll Routes -- */
+app.get('/', routes.polls.index);
+app.get('/polls/show', routes.polls.show);
+app.get('/polls/create', routes.polls.create);
+
 
 /* -- User Routes -- */
-app.get('/users', ensureAuthented, routes.users.index);
 app.get('/users/register', alreadyAuthenticated, routes.users.register);
 app.post('/users/register', routes.users.createAccount);
 app.get('/users/login', alreadyAuthenticated, routes.users.login);
