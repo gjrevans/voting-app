@@ -1,27 +1,13 @@
-{% if errors %}
+{% if errorMessages.length %}
     <div class="alert alert-danger">
-        {% for error in errors %}{{ error.msg }}{% if loop.index < errors.length %}, {% endif %}{% endfor %}
+        {% for error in errorMessages %}{{ error.msg or error }}{% if loop.index < errorMessages.length %}, {% endif %}{% endfor %}
         <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"><i class="fa fa-times"></i></a>
     </div>
 {% endif %}
 
-{% if error.length %}
-    <div class="alert alert-danger">
-        {{ error }}
-        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"><i class="fa fa-times"></i></a>
-    </div>
-{% endif %}
-
-{% if error_msg.length %}
-    <div class="alert alert-danger">
-        {{ error_msg }}
-        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"><i class="fa fa-times"></i></a>
-    </div>
-{% endif %}
-
-{% if success_msg.length %}
+{% if successMessages.length %}
     <div class="alert alert-success">
-        {{ success_msg }}
+        {% for message in successMessages %}{{ message }}{% if loop.index < successMessages.length %}, {% endif %}{% endfor %}
         <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"><i class="fa fa-times"></i></a>
     </div>
 {% endif %}

@@ -35,8 +35,9 @@ UserRoutes.prototype.createAccount = function(req, res) {
     var errors = req.validationErrors();
 
     if(errors){
+        req.flash("errorMessages", errors);
         res.render('users/register.html', {
-            errors: errors
+            page: { title: 'Register' }
         });
     } else {
         var newUser = new User({
@@ -50,7 +51,7 @@ UserRoutes.prototype.createAccount = function(req, res) {
             if(err) throw error;
         });
 
-        req.flash('success_msg', 'You are now registered & can login!');
+        req.flash('successMessages', 'You are now registered & can login!');
         res.redirect('login');
     }
 }
@@ -68,7 +69,7 @@ UserRoutes.prototype.authenticate = function(req, res) {
 
 UserRoutes.prototype.logout = function(req, res) {
     req.logout();
-    req.flash('success_msg', 'Successfully logged out!');
+    req.flash('successMessages', 'Successfully logged out!');
     res.redirect('/users/login');
 }
 

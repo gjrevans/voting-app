@@ -60,32 +60,32 @@ app.use(passport.session());
 
 // Express Validator
 app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
 
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
+        while(namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param : formParam,
+            msg   : msg,
+            value : value
+        };
     }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
 }));
 
 // Connect Flash
 app.use(flash());
 
-// Global Vars
+// Pass request messages to the view
 app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  res.locals.user = req.user || null;
-  next();
+    // View level variables successMessages and errorMessages are being assigned the global req.flash message arrays for this request
+    res.locals.successMessages = req.flash('successMessages');
+    res.locals.errorMessages = req.flash('errorMessages');
+    res.locals.user = req.user || null;
+    next();
 });
 
 // Check if current user is authenticated
@@ -93,14 +93,14 @@ function ensureAuthented(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else {
-        req.flash('error_msg', 'You must be logged in to do that!');
+        req.flash('errorMessages', 'You must be logged in to do that!');
         res.redirect('users/login');
     }
 }
 
 function alreadyAuthenticated(req, res, next){
     if(req.isAuthenticated()){
-        req.flash('error_msg', 'You\'re already signed in!');
+        req.flash('errorMessages', 'You\'re already signed in!');
         res.redirect('/');
     } else {
         return next();
@@ -111,20 +111,16 @@ routes = new Routes();
 
 /* -- Poll Routes -- */
 app.get('/', routes.polls.index);
-app.get('/polls/show', routes.polls.show);
-app.get('/polls/create', routes.polls.create);
-
+app.get('/polls/new', routes.polls.new);
+app.post('/polls/create', routes.polls.create);
+app.get('/polls/:id', routes.polls.show);
 
 /* -- User Routes -- */
 app.get('/users/register', alreadyAuthenticated, routes.users.register);
 app.post('/users/register', routes.users.createAccount);
 app.get('/users/login', alreadyAuthenticated, routes.users.login);
-app.post('/users/login', passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login', failureFlash: true}), routes.users.authenticate);
+app.post('/users/login', passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login', failureFlash: {type: 'errorMessages'}}), routes.users.authenticate);
 app.get('/users/logout', routes.users.logout);
-
-// Passport Config
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -139,6 +135,7 @@ app.use(function(err, req, res, next) {
     if(err.status === 404){
         res.render('404.html');
     } else {
+        console.error(err);
         res.render('500.html');
     }
 });
