@@ -3,14 +3,13 @@ var Poll    = require('../models/poll');
 var PollRoutes = function(){};
 
 PollRoutes.prototype.index = function(req, res) {
-    res.render('polls/index.html', {
-        page: { title: 'All Polls' },
-        polls: [
-            {name: 'sexy'},
-            {name: 'nice'},
-            {name: 'cool'}
-        ]
+    Poll.getPolls({}, function(err, polls){
+        res.render('polls/index.html', {
+            page: { title: 'All Polls' },
+            polls: polls
+        });
     });
+
 }
 
 PollRoutes.prototype.show = function(req, res) {
@@ -22,6 +21,15 @@ PollRoutes.prototype.show = function(req, res) {
         });
     });
 }
+
+PollRoutes.prototype.vote = function(req, res) {
+    /*
+    Poll.voteById(req.params.id, function(err, poll) {
+
+    });
+    */
+}
+
 PollRoutes.prototype.new = function(req, res) {
     res.render('polls/new.html', {
         page: { title: 'Poll' }
@@ -73,4 +81,5 @@ PollRoutes.prototype.create = function(req, res) {
 
     }
 }
+
 module.exports = PollRoutes;

@@ -113,7 +113,7 @@ routes = new Routes();
 app.get('/', routes.polls.index);
 app.get('/polls/new', routes.polls.new);
 app.post('/polls/create', routes.polls.create);
-app.get('/polls/:id', routes.polls.show);
+app.get('/polls/:id', routes.polls.show); 
 
 /* -- User Routes -- */
 app.get('/users/register', alreadyAuthenticated, routes.users.register);

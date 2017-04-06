@@ -1,5 +1,6 @@
 var mongoose    = require('mongoose');
 var bcrypt      = require('bcryptjs');
+var validator   = require('validator');
 
 var UserSchema = mongoose.Schema({
     username: {
@@ -34,6 +35,10 @@ module.exports.getUserByUsername = function(username, callback){
 }
 
 module.exports.getUserById = function(id, callback){
+    // Make sure we're passing a mongo id
+    if(!id || !validator.isMongoId(id)){
+        return callback("invalidId", false);
+    }
 	User.findById(id, callback);
 }
 

@@ -1,4 +1,5 @@
 var mongoose    = require('mongoose');
+var validator   = require('validator');
 
 var PollSchema = mongoose.Schema({
     name: {
@@ -25,5 +26,13 @@ module.exports.createPoll = function(newPoll, callback){
 }
 
 module.exports.getPollById = function(id, callback){
+    // Make sure we're passing a mongo id
+    if(!id || !validator.isMongoId(id)){
+        return callback("invalidId", false);
+    }
 	Poll.findById(id, callback);
+}
+
+module.exports.getPolls = function(id, callback){
+	Poll.find(callback);
 }
