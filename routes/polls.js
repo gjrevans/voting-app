@@ -4,6 +4,8 @@ var PollRoutes = function(){};
 
 PollRoutes.prototype.index = function(req, res) {
     Poll.getPolls({}, function(err, polls){
+        if(err) throw err;
+
         res.render('polls/index.html', {
             page: { title: 'All Polls' },
             polls: polls
@@ -13,21 +15,44 @@ PollRoutes.prototype.index = function(req, res) {
 }
 
 PollRoutes.prototype.show = function(req, res) {
-    Poll.getPollById(req.params.id, function(err, poll) {
+    Poll.getPollById(req.params.pollId, function(err, poll) {
         if(err) throw err;
+
         res.render('polls/show.html', {
-            page: { title: 'Poll' },
+            page: { title: poll.name },
             poll: poll
         });
     });
 }
 
-PollRoutes.prototype.vote = function(req, res) {
-    /*
-    Poll.voteById(req.params.id, function(err, poll) {
+PollRoutes.prototype.userPolls = function(req, res) {
+    Poll.getPollsForUser(req.params.userId, function(err, polls) {
+        if(err) throw err;
 
+        res.render('polls/userPolls.html', {
+            page: { title: 'My Polls' },
+            polls: polls
+        });
     });
-    */
+}
+
+PollRoutes.prototype.vote = function(req, res) {
+    var pollId = req.params.pollId;
+    var option = req.body.optionId;
+
+    Poll.voteById(pollId, option, function(err, poll) {
+        if(err) throw err;
+        req.flash('successMessages', 'Your vote was successfully cast');
+        res.redirect('/polls/' + poll.id);
+    });
+}
+
+PollRoutes.prototype.delete = function(req, res) {
+    Poll.deletePollById(req.params.pollId, function(err, poll) {
+        if(err) throw err;
+        req.flash('successMessages', 'Your poll was successfully deleted');
+        res.redirect('/polls/user/' + req.user.id);
+    });
 }
 
 PollRoutes.prototype.new = function(req, res) {
@@ -38,7 +63,8 @@ PollRoutes.prototype.new = function(req, res) {
 
 PollRoutes.prototype.create = function(req, res) {
     var name = req.body.name
-    var user = req.user._id
+    var userId = req.user._id
+    var userName = req.user.name
     var option1 = req.body.option1
     var option2 = req.body.option2
     var option3 = req.body.option3
@@ -57,7 +83,10 @@ PollRoutes.prototype.create = function(req, res) {
     } else {
         var newPoll = new Poll({
             name: name,
-            user: user,
+            user: {
+                id: userId,
+                name: userName
+            },
             results: [{
                 option: option1,
                 votes: 0

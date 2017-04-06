@@ -4,12 +4,6 @@ User            = require('../models/user');
 
 var UserRoutes = function(){};
 
-UserRoutes.prototype.index = function(req, res) {
-    res.render('users/index.html', {
-        page: { title: 'Account' }
-    });
-}
-
 UserRoutes.prototype.register = function(req, res) {
     res.render('users/register.html', {
         page: { title: 'Register' },

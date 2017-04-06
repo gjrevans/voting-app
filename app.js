@@ -94,7 +94,7 @@ function ensureAuthented(req, res, next){
         return next();
     } else {
         req.flash('errorMessages', 'You must be logged in to do that!');
-        res.redirect('users/login');
+        res.redirect('/users/login');
     }
 }
 
@@ -109,18 +109,21 @@ function alreadyAuthenticated(req, res, next){
 // Initialize Routes
 routes = new Routes();
 
-/* -- Poll Routes -- */
-app.get('/', routes.polls.index);
-app.get('/polls/new', routes.polls.new);
-app.post('/polls/create', routes.polls.create);
-app.get('/polls/:id', routes.polls.show); 
-
 /* -- User Routes -- */
 app.get('/users/register', alreadyAuthenticated, routes.users.register);
 app.post('/users/register', routes.users.createAccount);
 app.get('/users/login', alreadyAuthenticated, routes.users.login);
 app.post('/users/login', passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login', failureFlash: {type: 'errorMessages'}}), routes.users.authenticate);
 app.get('/users/logout', routes.users.logout);
+
+/* -- Poll Routes -- */
+app.get('/', routes.polls.index);
+app.get('/polls/new', ensureAuthented, routes.polls.new);
+app.post('/polls/create', ensureAuthented, routes.polls.create);
+app.post('/polls/vote/:pollId', ensureAuthented, routes.polls.vote);
+app.get('/polls/user/:userId', routes.polls.userPolls);
+app.post('/polls/delete/:pollId', ensureAuthented, routes.polls.delete);
+app.get('/polls/:pollId', routes.polls.show);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

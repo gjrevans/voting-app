@@ -8,6 +8,9 @@
         <ul class="navbar-nav ml-auto">
             {% if user %}
             <li class="nav-item">
+                <a class="nav-link" href="/polls/user/{{ user.id }}">My Polls</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/users/logout">Logout</a>
             </li>
             {% else %}

@@ -6,19 +6,21 @@
 		<div class="col-md-12">
 			<div class="row">
 				<div class="col-md-9">
-					<h1>All Polls</h1>
-				</div>
-				<div class="col-md-3">
-					<a href="/polls/new" class="btn btn-primary mt-2 float-right">Create Poll</a>
+					<h1>All My Polls</h1>
 				</div>
 			</div>
 			<hr>
 			<div class="row">
+				{% if polls.length == 0 %}
+				<div class="col-md-12 text-center">
+					<p>There are no polls here...</p>
+
+				</div>
+				{% endif %}
+
 				{% for poll in polls %}
 				<div class="col-md-4">
 					<h3>{{ poll.name }}</h3>
-					<a href="/polls/user/{{ poll.user.id }}" class="mb-1">{{ poll.user.name }}</a>
-
 					<!-- VOTING -->
 					<div class="mb-2">
 						{% for result in poll.results %}
@@ -26,6 +28,11 @@
 						{% endfor %}
 					</div>
 					<a href="/polls/{{ poll.id }}" class="btn btn-primary">View</a>
+					{% if user.id == poll.user.id %}
+					<form role "form" action="/polls/delete/{{ poll.id }}" method="post">
+						<button type="submit" name="submit" class="btn btn-danger">Delete</button>
+					</form>
+					{% endif %}
 				</div>
 				{% endfor %}
 			</div>
