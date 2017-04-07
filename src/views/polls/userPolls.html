@@ -14,13 +14,12 @@
 				{% if polls.length == 0 %}
 				<div class="col-md-12 text-center">
 					<p>There are no polls here...</p>
-
 				</div>
 				{% endif %}
 
 				{% for poll in polls %}
 				<div class="col-md-4">
-					<h3>{{ poll.name }}</h3>
+					<h3>{{ poll.question }}</h3>
 					<!-- VOTING -->
 					<div class="mb-2">
 						{% for result in poll.results %}
@@ -28,8 +27,8 @@
 						{% endfor %}
 					</div>
 					<a href="/polls/{{ poll.id }}" class="btn btn-primary">View</a>
-					{% if user.id == poll.user.id %}
-					<form role "form" action="/polls/delete/{{ poll.id }}" method="post">
+					{% if user.id == poll.user._id %}
+					<form role "form" action="/polls/delete/{{ poll.id }}" method="post" class="d-inline">
 						<button type="submit" name="submit" class="btn btn-danger">Delete</button>
 					</form>
 					{% endif %}

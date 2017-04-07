@@ -4,8 +4,17 @@
 <div class="container-fluid mt-3">
     <div class="row">
         <div class="col-md-12">
-            <h1>{{ poll.name }}</h1>
-            <a href="/polls/user/{{ poll.user.id }}" class="mb-1">{{ poll.user.name }}</a>
+            <h1>{{ poll.question }}</h1>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <a href="http://www.twitter.com/share?url=https://polls.gjrevans.com/polls/{{ poll.id }}" class="btn btn-primary btn-sm"><i class="fa fa-twitter mr-1"></i>Tweet</a>
+                    </div>
+                    <div class="pull-left">
+                        <a href="/polls/user/{{ poll.user._id }}" class="mb-1">{{ poll.user.name }}</a>
+                    </div>
+                </div>
+            </div>
             <hr>
             <!-- CHART -->
             <div class="row">
@@ -22,7 +31,7 @@
                             {{ result.option }} ({{ result.votes }})
                         </div>
                         <div class="col-md-3 mb-2">
-                            <form role "form" action="/polls/vote/{{ poll.id }}" method="post">
+                            <form role "form" action="/polls/vote/{{ poll.id }}" method="post" class="pull-right">
                                 <input type="text" name="optionId" value="{{ result._id }}" class="hidden-xs-up">
                                 <button type="submit" name="submit" class="btn btn-primary">Vote</button>
                             </form>

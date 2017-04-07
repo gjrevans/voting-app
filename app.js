@@ -73,6 +73,11 @@ app.use(expressValidator({
             msg   : msg,
             value : value
         };
+    },
+    customValidators: {
+       isArray: function(value) {
+           return Array.isArray(value);
+       }
     }
 }));
 

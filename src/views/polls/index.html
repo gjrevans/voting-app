@@ -16,8 +16,8 @@
 			<div class="row">
 				{% for poll in polls %}
 				<div class="col-md-4">
-					<h3>{{ poll.name }}</h3>
-					<a href="/polls/user/{{ poll.user.id }}" class="mb-1">{{ poll.user.name }}</a>
+					<h3>{{ poll.question }}</h3>
+					<a href="/polls/user/{{ poll.user._id }}" class="mb-1">{{ poll.user.name }}</a>
 
 					<!-- VOTING -->
 					<div class="mb-2">

@@ -7,20 +7,20 @@
             <h1>Create a Poll</h1>
 			<form role="form" action="/polls/create" method="post">
 				<div class="form-group">
-					<label for="">Name</label>
-					<input type="text" name="name" value="" placeholder="Ex. John Doe" class="form-control">
+					<label for="name">Question</label>
+					<input type="text" name="question" value="" placeholder="Ex. What is your favourite animal?" class="form-control">
+				</div>
+				<div class="options">
+					<label for="name">Options</label>
+					<div class="form-group">
+						<input type="text" name="options" value="" placeholder="Ex. Cat" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<input type="text" name="options" value="" placeholder="Ex. Dog" class="form-control" required>
+					</div>
 				</div>
 				<div class="form-group">
-					<label for="">Option 1</label>
-					<input type="text" name="option1" value="" placeholder="" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="">Option 2</label>
-					<input type="text" name="option2" value="" placeholder="" class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="">Option 3</label>
-					<input type="text" name="option3" value="" placeholder="" class="form-control">
+					<a href="#" class="btn btn-warning form-control addOption">+</a>
 				</div>
 				<div class="form-group">
 					<button type="submit" name="submit" class="form-control btn btn-primary">Submit</button>
@@ -32,6 +32,12 @@
 {% endblock %}
 
 {% block extra_js %}
-<!-- Use this to insert JS into a page -->
-<!-- Important to put JS here so that JQUERY is available to the page -->
+<script type="text/javascript">
+$(document).ready(function(){
+	var optionString = '<div class="form-group"><input type="text" name="options" value="" placeholder="Ex. Fish" class="form-control" required></div>'
+	$('.addOption').click(function(){
+		$('.options').append(optionString);
+	});
+});
+</script>
 {% endblock %}

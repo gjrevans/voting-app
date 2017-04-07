@@ -2,13 +2,13 @@ var mongoose    = require('mongoose');
 var validator   = require('validator');
 
 var PollSchema = mongoose.Schema({
-    name: {
+    question: {
         type: String,
         index: true
     },
     user: {
-        id: {
-            type: String
+        _id: {
+            type: mongoose.Schema.ObjectId
         },
         name: {
             type: String
@@ -51,7 +51,7 @@ module.exports.deletePollById = function(id, callback){
 }
 
 module.exports.getPollsForUser = function(id, callback){
-	Poll.find({'user.id': id}, callback);
+	Poll.find({'user._id': id}, callback);
 }
 
 module.exports.voteById = function(id, option, callback){
