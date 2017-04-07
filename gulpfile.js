@@ -10,7 +10,7 @@ var gulp         = require('gulp'),
 	plumber      = require('gulp-plumber'),
 	imagemin     = require('gulp-imagemin'),
 	minifyCSS    = require('gulp-minify-css'),
-	minifyHtml   = require('gulp-minify-html'),
+	htmlmin 	= require('gulp-htmlmin'),
 	rev          = require('gulp-rev'),
     jshint       = require('gulp-jshint'),
     imagemin     = require('gulp-imagemin'),
@@ -77,10 +77,7 @@ gulp.task('dist-html', ['build-html', 'dist-js', 'dist-css', 'dist-images'], fun
             paths.buildDir + 'views/' + "**/*.html"
         ])
         .pipe(revCollector())
-        .pipe(minifyHtml({
-            conditionals: true,
-            quotes: true
-        }))
+		.pipe(htmlmin({collapseWhitespace: false}))
         .pipe(gulp.dest(paths.distDir + 'views'));
 });
 

@@ -29,7 +29,7 @@
 					<div class="mb-3">
 						<a href="/polls/{{ poll.id }}" class="btn btn-primary">View</a>
 						{% if user.id == poll.user._id %}
-						<form role "form" action="/polls/delete/{{ poll.id }}" method="post" class="d-inline">
+						<form role="form" action="/polls/delete/{{ poll.id }}" method="post" class="d-inline">
 							<button type="submit" name="submit" class="btn btn-danger"><i class="fa fa-trash mr-1"></i>Delete</button>
 						</form>
 						{% endif %}

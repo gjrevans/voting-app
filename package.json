@@ -12,7 +12,8 @@
   "author": "hello@gjrevans.com",
   "license": "ISC",
   "devDependencies": {
-    "debug": "~2.2.0"
+    "debug": "~2.2.0",
+    "gulp-htmlmin": "^3.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

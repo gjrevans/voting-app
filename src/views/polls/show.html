@@ -22,7 +22,7 @@
                                 <td>{{ result.option }}</td>
                                 <td>{{ result.votes }}</td>
                                 <td>
-                                    <form role "form" action="/polls/vote/{{ poll.id }}" method="post" class="pull-right">
+                                    <form role="form" action="/polls/vote/{{ poll.id }}" method="post" class="pull-right">
                                         <input type="text" name="optionId" value="{{ result._id }}" class="hidden-xs-up">
                                         <button type="submit" name="submit" class="btn btn-primary">Vote</button>
                                     </form>
