@@ -13,11 +13,14 @@
         {% block styles %}{% endblock %}
     </head>
     <body>
-        <!-- UNCOMMENT FOR NAVIGATION -->
+        <!-- NAVIGATION -->
         {% include "../includes/header.html" %}
 
         <!-- INCLUDE ERRORS -->
         {% include "../includes/errors.html" %}
+        
+        <!-- BREADCRUMB -->
+        {% include "../includes/breadcrumb.html" %}
 
         <!-- PAGE CONTENT -->
         {% block content %}{% endblock %}

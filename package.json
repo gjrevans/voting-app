@@ -23,6 +23,7 @@
     "del": "^0.1.2",
     "dotenv": "^4.0.0",
     "express": "^4.13.3",
+    "express-breadcrumbs": "0.0.2",
     "express-messages": "^1.0.1",
     "express-session": "^1.15.2",
     "express-validator": "^3.1.2",

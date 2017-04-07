@@ -2,6 +2,7 @@ var express         = require('express'),
     expressValidator = require('express-validator'),
     flash           = require('connect-flash'),
     session         = require('express-session'),
+    breadcrumbs     = require('express-breadcrumbs'),
     MongoStore      = require('connect-mongo')(session),
     port            = process.env.PORT || 3000,
     mongoose        = require('mongodb'),
@@ -42,6 +43,18 @@ nunjucks.configure(app.get('views'), {
     watch: true,
     express: app
 });
+
+// Initialize Breadcrumbs
+app.use(breadcrumbs.init());
+
+// Set Breadcrumbs home information
+app.use(breadcrumbs.setHome());
+
+// Mount the breadcrumbs at `/admin`
+app.use('/', breadcrumbs.setHome({
+  name: 'All Polls',
+  url: '/'
+}));
 
 // Express Session
 app.use(session({
@@ -90,8 +103,10 @@ app.use(function (req, res, next) {
     res.locals.successMessages = req.flash('successMessages');
     res.locals.errorMessages = req.flash('errorMessages');
     res.locals.user = req.user || null;
+    res.locals.config = process.env;
     next();
 });
+
 
 // Check if current user is authenticated
 function ensureAuthented(req, res, next){
@@ -125,10 +140,12 @@ app.get('/users/logout', routes.users.logout);
 app.get('/', routes.polls.index);
 app.get('/polls/new', ensureAuthented, routes.polls.new);
 app.post('/polls/create', ensureAuthented, routes.polls.create);
-app.post('/polls/vote/:pollId', ensureAuthented, routes.polls.vote);
-app.get('/polls/user/:userId', routes.polls.userPolls);
-app.post('/polls/delete/:pollId', ensureAuthented, routes.polls.delete);
 app.get('/polls/:pollId', routes.polls.show);
+app.post('/polls/:pollId', routes.polls.update);
+
+app.get('/polls/user/:userId', routes.polls.userPolls);
+app.post('/polls/vote/:pollId', ensureAuthented, routes.polls.vote);
+app.post('/polls/delete/:pollId', ensureAuthented, routes.polls.delete);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

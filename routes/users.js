@@ -5,7 +5,12 @@ User            = require('../models/user');
 var UserRoutes = function(){};
 
 UserRoutes.prototype.register = function(req, res) {
+    // Set the page breadcrumb
+    req.breadcrumbs('Register', '/users/register');
+
+    // Render the page
     res.render('users/register.html', {
+        breadcrumbs: req.breadcrumbs(),
         page: { title: 'Register' },
         path: 'register'
     });
@@ -42,7 +47,7 @@ UserRoutes.prototype.createAccount = function(req, res) {
         });
 
         User.createUser(newUser, function(err, user){
-            if(err) throw error;
+            if(err) throw err;
         });
 
         req.flash('successMessages', 'You are now registered & can login!');
@@ -51,7 +56,12 @@ UserRoutes.prototype.createAccount = function(req, res) {
 }
 
 UserRoutes.prototype.login = function(req, res) {
+    // Set the page breadcrumb
+    req.breadcrumbs('Login', '/users/login');
+
+    // Render the page
     res.render('users/login.html', {
+        breadcrumbs: req.breadcrumbs(),
         page: { title: 'Login' },
         path: 'login'
     });

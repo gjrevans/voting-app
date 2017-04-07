@@ -31,7 +31,7 @@ module.exports.createPoll = function(newPoll, callback){
 }
 
 module.exports.getPolls = function(id, callback){
-	Poll.find(callback);
+    Poll.find(callback);
 }
 
 module.exports.getPollById = function(id, callback){
@@ -39,7 +39,26 @@ module.exports.getPollById = function(id, callback){
     if(!id || !validator.isMongoId(id)){
         return callback("invalidPollId", false);
     }
-	Poll.findById(id, callback);
+    Poll.findById(id, callback);
+}
+
+module.exports.updatePollbyId = function(id, opts, callback){
+    // Make sure we're passing a mongo id
+    if(!id || !validator.isMongoId(id)){
+        return callback("invalidPollId", false);
+    }
+    var update = {
+        $push: {
+            results: {
+                option: opts.option,
+                votes: 0
+            }
+        }
+    };
+
+    var query = {'_id': id};
+
+    Poll.findOneAndUpdate(query, update, callback);
 }
 
 module.exports.deletePollById = function(id, callback){
@@ -47,11 +66,11 @@ module.exports.deletePollById = function(id, callback){
     if(!id || !validator.isMongoId(id)){
         return callback("invalidPollId", false);
     }
-	Poll.findOneAndRemove(id, callback);
+    Poll.findOneAndRemove(id, callback);
 }
 
 module.exports.getPollsForUser = function(id, callback){
-	Poll.find({'user._id': id}, callback);
+    Poll.find({'user._id': id}, callback);
 }
 
 module.exports.voteById = function(id, option, callback){

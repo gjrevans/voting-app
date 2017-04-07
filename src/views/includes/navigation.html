@@ -2,16 +2,16 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="/">Polls</a>
+    <a class="navbar-brand" href="/"><i class="fa fa-commenting-o mr-2"></i>People's Voice</a>
 
     <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav ml-auto">
             {% if user %}
             <li class="nav-item">
-                <a class="nav-link" href="/polls/user/{{ user._id }}">My Polls</a>
+                <a class="nav-link" href="/polls/user/{{ user._id }}"><i class="fa fa-user mr-1"></i>My Polls</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/users/logout">Logout</a>
+                <a class="nav-link" href="/users/logout"><i class="fa fa-sign-out mr-1"></i>Logout</a>
             </li>
             {% else %}
             <li class="nav-item {% if path === 'login' %}active{% endif %}">

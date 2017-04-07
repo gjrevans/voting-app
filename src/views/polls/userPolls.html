@@ -6,7 +6,7 @@
 		<div class="col-md-12">
 			<div class="row">
 				<div class="col-md-9">
-					<h1>All My Polls</h1>
+					<h1>{{ user.name }}'s' Polls</h1>
 				</div>
 			</div>
 			<hr>
@@ -26,12 +26,14 @@
 						{{ result.option }} ({{ result.votes }})<br>
 						{% endfor %}
 					</div>
-					<a href="/polls/{{ poll.id }}" class="btn btn-primary">View</a>
-					{% if user.id == poll.user._id %}
-					<form role "form" action="/polls/delete/{{ poll.id }}" method="post" class="d-inline">
-						<button type="submit" name="submit" class="btn btn-danger">Delete</button>
-					</form>
-					{% endif %}
+					<div class="mb-3">
+						<a href="/polls/{{ poll.id }}" class="btn btn-primary">View</a>
+						{% if user.id == poll.user._id %}
+						<form role "form" action="/polls/delete/{{ poll.id }}" method="post" class="d-inline">
+							<button type="submit" name="submit" class="btn btn-danger"><i class="fa fa-trash mr-1"></i>Delete</button>
+						</form>
+						{% endif %}
+					</div>
 				</div>
 				{% endfor %}
 			</div>
